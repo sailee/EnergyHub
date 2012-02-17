@@ -36,6 +36,7 @@ namespace TstatMgmtGUI
             {
                 pair.ConnectToThermoStat(pair.ThermostatSSID);
                 label1.Text = "Successfully connected to " + pair.ThermostatSSID;
+                btnOK.Hide();
             }
             catch (Exception ex)
             {
