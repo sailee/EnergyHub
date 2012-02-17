@@ -1,0 +1,7 @@
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\bin\Debug\InternalDataTypes.dll
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\bin\Debug\InternalDataTypes.pdb
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\bin\Debug\ManagedWifi.dll
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\bin\Debug\ManagedWifi.pdb
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Debug\ResolveAssemblyReference.cache
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Debug\InternalDataTypes.dll
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Debug\InternalDataTypes.pdb

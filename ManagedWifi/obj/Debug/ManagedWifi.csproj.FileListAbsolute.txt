@@ -1,0 +1,5 @@
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\bin\Debug\ManagedWifi.dll
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\bin\Debug\ManagedWifi.pdb
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Debug\ResolveAssemblyReference.cache
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Debug\ManagedWifi.dll
+F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Debug\ManagedWifi.pdb

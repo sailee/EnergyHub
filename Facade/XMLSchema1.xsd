@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="security"
+   
+>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="authEncryption">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="authentication">
+                <xs:simpleType>
+                  <xs:restriction
+                      base="string"
+                                >
+                    <xs:enumeration
+                        value="open"
+                                     />
+                    <xs:enumeration
+                        value="shared"
+                                     />
+                    <xs:enumeration
+                        value="WPA"
+                                     />
+                    <xs:enumeration
+                        value="WPAPSK"
+                                     />
+                    <xs:enumeration
+                        value="WPA2"
+                                     />
+                    <xs:enumeration
+                        value="WPA2PSK"
+                                     />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="encryption">
+                <xs:simpleType>
+                  <xs:restriction
+                      base="string"
+                                >
+                    <xs:enumeration
+                        value="none"
+                                     />
+                    <xs:enumeration
+                        value="WEP"
+                                     />
+                    <xs:enumeration
+                        value="TKIP"
+                                     />
+                    <xs:enumeration
+                        value="AES"
+                                     />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="useOneX"
+                  type="boolean"
+                  minOccurs="0"
+                         />
+              <xs:any
+                  processContents="lax"
+                  minOccurs="0"
+                  maxOccurs="unbounded"
+                  namespace="##other"
+                         />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="sharedKey"
+            minOccurs="0"
+            >
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="keyType">
+                <xs:simpleType>
+                  <xs:restriction
+                      base="string"
+                                >
+                    <xs:enumeration
+                        value="networkKey"
+                                     />
+                    <xs:enumeration
+                        value="passPhrase"
+                                     />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="protected"
+                  type="boolean"
+                         />
+              <xs:element name="keyMaterial"
+                  type="string"
+                         />
+              <xs:any
+                  processContents="lax"
+                  minOccurs="0"
+                  maxOccurs="unbounded"
+                  namespace="##other"
+                         />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="keyIndex"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="integer"
+                    >
+              <xs:minInclusive
+                  value="0"
+                         />
+              <xs:maxInclusive
+                  value="3"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="PMKCacheMode"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="string"
+                    >
+              <xs:enumeration
+                  value="disabled"
+                         />
+              <xs:enumeration
+                  value="enabled"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="PMKCacheTTL"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="integer"
+                    >
+              <xs:minInclusive
+                  value="5"
+                         />
+              <xs:maxInclusive
+                  value="1400"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="PMKCacheSize"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="integer"
+                    >
+              <xs:minInclusive
+                  value="1"
+                         />
+              <xs:maxInclusive
+                  value="255"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="preAuthMode"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="string"
+                    >
+              <xs:enumeration
+                  value="disabled"
+                         />
+              <xs:enumeration
+                  value="enabled"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="preAuthThrottle"
+            minOccurs="0"
+            >
+          <xs:simpleType>
+            <xs:restriction
+                base="integer"
+                    >
+              <xs:minInclusive
+                  value="1"
+                         />
+              <xs:maxInclusive
+                  value="16"
+                         />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:any
+            processContents="lax"
+            minOccurs="0"
+            maxOccurs="unbounded"
+            namespace="##other"
+             />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
