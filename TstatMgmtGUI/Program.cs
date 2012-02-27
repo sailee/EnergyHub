@@ -13,7 +13,7 @@ namespace TstatMgmtGUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FindAvailableNetworks());
+            Application.Run(new Test());
         }
     }
 }
