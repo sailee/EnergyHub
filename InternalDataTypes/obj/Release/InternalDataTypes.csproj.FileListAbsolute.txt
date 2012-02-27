@@ -5,3 +5,10 @@ F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\bin\Rele
 F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Release\ResolveAssemblyReference.cache
 F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Release\InternalDataTypes.dll
 F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\InternalDataTypes\obj\Release\InternalDataTypes.pdb
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\bin\Release\InternalDataTypes.dll
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\bin\Release\InternalDataTypes.pdb
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\bin\Release\ManagedWifi.dll
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\bin\Release\ManagedWifi.pdb
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\obj\Release\InternalDataTypes.dll
+C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\InternalDataTypes\obj\Release\InternalDataTypes.pdb

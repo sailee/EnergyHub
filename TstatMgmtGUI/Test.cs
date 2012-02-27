@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Net;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System.IO;
 
 namespace TstatMgmtGUI
@@ -22,11 +22,11 @@ namespace TstatMgmtGUI
         private void Form1_Load(object sender, EventArgs e)
         {
             
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/scan");
-            HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();            
+            //HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/scan");
+            //HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();            
             
 //            JsonTextReader reader = new JsonTextReader(rdr);
-            label1.Text = response.ToString();
+            //label1.Text = response.ToString();
         }
     }
 }
