@@ -1,5 +1,0 @@
-F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\bin\Release\ManagedWifi.dll
-F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\bin\Release\ManagedWifi.pdb
-F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Release\ResolveAssemblyReference.cache
-F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Release\ManagedWifi.dll
-F:\MS - Coursework\Spring 2012\ITP\EnergyHubTstatMgmt\ManagedWifi\obj\Release\ManagedWifi.pdb
