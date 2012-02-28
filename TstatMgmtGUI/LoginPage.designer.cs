@@ -138,6 +138,7 @@
             this.Name = "LoginPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginPage";
+            this.Load += new System.EventHandler(this.LoginPage_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 

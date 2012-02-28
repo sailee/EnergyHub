@@ -32,5 +32,10 @@ namespace TstatMgmtGUI
         {
             System.Diagnostics.Process.Start("https://myhub.energyhub.net/EDX/public/create_account.html");
         }
+
+        private void LoginPage_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
