@@ -27,6 +27,7 @@ namespace TstatMgmtGUI
 
         private void CurrentNetwork_Load(object sender, EventArgs e)
         {
+            btnContinue.Hide();
             label1.Text= "'"+pair.ThermostatSSID + "' will be connected to '"+ pair.getConnectedNetwork()+"'.";
         }
 
@@ -37,11 +38,18 @@ namespace TstatMgmtGUI
                 pair.ConnectToThermoStat(pair.ThermostatSSID);
                 label1.Text = "Successfully connected to " + pair.ThermostatSSID;
                 btnOK.Hide();
+                btnContinue.Show();
             }
             catch (Exception ex)
             {
                 label1.Text = ex.Message;
             }
+        }
+
+        private void btnContinue_Click(object sender, EventArgs e)
+        {
+            ShowVisibleNetworks svn = new ShowVisibleNetworks();
+            svn.Show();
         }       
     }
 }

@@ -65,7 +65,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 191);
+            this.ClientSize = new System.Drawing.Size(307, 204);
             this.Controls.Add(this.lblFountTstat);
             this.Controls.Add(this.btnJoinNetwork);
             this.Controls.Add(this.lbAvailableTstats);

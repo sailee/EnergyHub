@@ -1,5 +1,6 @@
 ﻿using NativeWifi;
 using System.Text;
+using System;
 
 namespace InternalDataTypes
 {
@@ -8,6 +9,7 @@ namespace InternalDataTypes
     /// If the network doesn't have a profile, this member will be empty.
     /// If multiple profiles are associated with the network, there will be multiple entries with the same SSID in the visible network list. Profile names are case-sensitive.
     /// </summary>
+    [Serializable]
     public class Network
     {
         private string profileName, dot11Ssid, dot11BssType, wlanNotConnectableReason, defaultAuthAlgorithm, defaultCipherAlgo;
@@ -27,6 +29,10 @@ namespace InternalDataTypes
             wlanSignalQuality = network.wlanSignalQuality;
             securityEnabled = network.securityEnabled;
             isConnectable = network.networkConnectable;
+        }
+        public Network()
+        {
+            
         }
 
         public string ProfileName

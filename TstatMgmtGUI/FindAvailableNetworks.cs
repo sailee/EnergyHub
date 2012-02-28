@@ -64,7 +64,7 @@ namespace TstatMgmtGUI
 
                 //lbAvailableTstats.Items.Clear();
                 lbAvailableTstats.DataSource = networks;
-                lbAvailableTstats.DisplayMember = "NetworkSSID";
+                lbAvailableTstats.DisplayMember = "NetworkSSID";                
             }
             catch (Exception ex)
             {
