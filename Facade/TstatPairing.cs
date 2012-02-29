@@ -14,6 +14,23 @@ namespace Facade
         private string thermostatSSID;
         private object var,src;
 
+        public String Status
+        {
+            get { 
+                if(var!=null) 
+                    return var.ToString();
+                return "Initializing";
+            }
+        }
+
+        public String ReasonCode
+        {
+            get { 
+                if(src != null)
+                    return src.ToString();
+                return "";
+            }
+        }
 
         public string ThermostatSSID
         {
@@ -44,7 +61,7 @@ namespace Facade
             return lstNetworks;
         }
 
-        public void ConnectToThermoStat(String ssid)
+        public Boolean ConnectToThermoStat(String ssid)
         {
             //Find current interface Guid
             WlanClient.WlanInterface intfc = GetCurrentInterface();
@@ -88,24 +105,7 @@ namespace Facade
 
                 //Assuming that Thermostat network is always adhoc
                 //intfc.Connect(Wlan.WlanConnectionMode.TemporaryProfile, Wlan.Dot11BssType.Independent,ID , Wlan.WlanConnectionFlags.HiddenNetwork);
-                intfc.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, ssid);
-                String str1,str2;
-
-                //while (object.Equals(var, null) || object.Equals(src,null))
-                //{
-                    
-                //}                
-                //while (String.Compare("Connected", var.ToString()) !=0)
-                //{
-                //    str1 = var.ToString();
-                //    str2 = src.ToString();
-                //}
-
-                while (intfc.InterfaceState != Wlan.WlanInterfaceState.Connected)
-                {
-                    str1 = intfc.InterfaceState.ToString();
-                }
-                str2 = var.ToString();
+                return intfc.ConnectSynchronously(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, ssid, 15000);                
             }
             else 
             {
@@ -116,7 +116,7 @@ namespace Facade
         void test(Wlan.WlanNotificationData notifyData, Wlan.WlanConnectionNotificationData connNotifyData)
         {
             var = notifyData.NotificationCode;
-            src = connNotifyData.wlanReasonCode;            
+            src = connNotifyData.wlanReasonCode; 
         }
 
 

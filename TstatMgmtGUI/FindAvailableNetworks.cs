@@ -30,15 +30,14 @@ namespace TstatMgmtGUI
         }
 
         private void btnJoinNetwork_Click(object sender, EventArgs e)
-        {
-            this.Hide();
+        {            
             if (lbAvailableTstats.Items.Count > 0)
             {
                 Network netw = (Network)lbAvailableTstats.SelectedItem;
                 pair.ThermostatSSID = netw.NetworkSSID;
                 Debug.WriteLine("You asked to join {0}", pair.ThermostatSSID);                
                 
-                CurrentNetwork cn = new CurrentNetwork(pair);
+                CurrentNetwork cn = new CurrentNetwork(pair, this);
                 cn.ShowDialog();
             }
             else 

@@ -59,5 +59,12 @@ namespace TstatMgmtGUI.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap EnergyHub_logo_color_300 {
+            get {
+                object obj = ResourceManager.GetObject("EnergyHub_logo-color-300", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
