@@ -35,9 +35,11 @@ namespace TstatMgmtGUI
             {
                 Network netw = (Network)lbAvailableTstats.SelectedItem;
                 pair.ThermostatSSID = netw.NetworkSSID;
-                Debug.WriteLine("You asked to join {0}", pair.ThermostatSSID);                
+                Debug.WriteLine("You asked to join {0}", pair.ThermostatSSID);
+
+                this.Hide();
                 
-                CurrentNetwork cn = new CurrentNetwork(pair, this);
+                CurrentNetwork cn = new CurrentNetwork(pair);
                 cn.ShowDialog();
             }
             else 
@@ -49,7 +51,7 @@ namespace TstatMgmtGUI
 
         private void FindAvailableNetworks_Load(object sender, EventArgs e)
         {
-            this.Show();
+            //this.Show();
             pair = new TstatPairing();
             
             try

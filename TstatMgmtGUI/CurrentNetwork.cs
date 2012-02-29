@@ -15,19 +15,18 @@ namespace TstatMgmtGUI
     {        
         TstatPairing pair;
         private static string str;
-        Boolean status=false;
-        FindAvailableNetworks fan;
+        Boolean status=false;     
 
         public CurrentNetwork()
         {
             InitializeComponent();
         }
 
-        public CurrentNetwork(TstatPairing obj, FindAvailableNetworks net)
+        public CurrentNetwork(TstatPairing obj)
         {
             InitializeComponent();
             pair = obj;
-            fan = net;
+            
         }
 
         private void CurrentNetwork_Load(object sender, EventArgs e)
@@ -40,21 +39,6 @@ namespace TstatMgmtGUI
             {
                 Thread t = new Thread(UpdateStat);
                 t.Start();
-
-                while (!status)
-                {
-                    // label2.Text = "Status: " + pair.Status + " Reason Code: " + pair.ReasonCode;
-                    //label1.Text = "Could not connect to Thermostat";
-                    //btnOK.Text = "Try Again";
-                    //btnOK.Show();
-                    //btnContinue.Hide();
-                }
-                fan.Hide();
-
-                label1.Text = "Successfully connected to " + pair.ThermostatSSID;
-        
-                btnContinue.Show();
-
             }
             catch (Exception ex)
             {
@@ -62,15 +46,20 @@ namespace TstatMgmtGUI
                 label1.Text = "Could not connect to thermostat. Please try again.";
             }
         }
-        
+
+             
         private void UpdateStat()
         {
             status = pair.ConnectToThermoStat(pair.ThermostatSSID);
+            label1.Invoke((MethodInvoker)(() => label1.Text = "Successfully connected to " + pair.ThermostatSSID));
+            btnContinue.Invoke((MethodInvoker)(() => btnContinue.Show()));     
         }
+      
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            ShowVisibleNetworks svn = new ShowVisibleNetworks(this);            
+            this.Hide();
+            ShowVisibleNetworks svn = new ShowVisibleNetworks(pair);            
             svn.Show();
         }       
     }

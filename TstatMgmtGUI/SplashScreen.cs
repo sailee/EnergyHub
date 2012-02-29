@@ -25,7 +25,7 @@ namespace TstatMgmtGUI
         {
             this.Hide();
             LoginPage Welcome = new LoginPage();
-            Welcome.ShowDialog();
+            Welcome.ShowDialog();            
         }
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)

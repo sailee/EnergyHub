@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Net;
-using System.Web.Script.Serialization;
-using System.IO;
-using System.Text;
 using InternalDataTypes;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Facade;
 using System.Threading;
@@ -16,104 +11,48 @@ namespace TstatMgmtGUI
     public partial class ShowVisibleNetworks : Form
     {
         Boolean status;
-        TstatPairing pair;
-        CurrentNetwork cn;
+        TstatPairing pair;        
              
-        public ShowVisibleNetworks(CurrentNetwork cn)
+        public ShowVisibleNetworks(TstatPairing pair)
         {
-            this.cn = cn;
+            this.pair = pair;
             InitializeComponent();
         }
 
         private void ShowVisibleNetworks_Load(object sender, EventArgs e)
         {
-            pair = new TstatPairing();
-            label1.Text = "Following is the list of networks accessible through your thermostat:";
-            
-            fetchNetworks();
-            cn.Hide();
-        }
+            try
+            {               
+                label1.Text = "Following is the list of networks accessible through your thermostat:";
 
-        private List<JsonNetwork> JsonNetDeserialize(string json)
-        {
-            JObject jsonObj = JObject.Parse(json);
+                List<JsonNetwork> nets = pair.fetchNetworks();
+                label1.Text = "List of visible networks";
 
-            JArray networks = (JArray)jsonObj["networks"];
-
-            List<JsonNetwork> nets = new List<JsonNetwork>();
-
-            foreach (JToken token in networks)
-            {
-               String ssid = (String)token[0];
-               String bssid = (String)token[1];
-               int secMode = (int)token[2];
-               int Channel = (int)token[3];
-               int rssi = (int)token[4];
-
-               JsonNetwork net = new JsonNetwork(ssid, bssid, secMode, Channel, rssi);
-               nets.Add(net);
+                listBox1.DataSource = nets;
+                listBox1.DisplayMember = "Ssid";              
             }
-
-            return nets;
-        }
+            catch (Exception ex)
+            {
+                label1.Text = ex.Message;
+            }
+        }       
 
         private void button1_Click(object sender, EventArgs e)
         {
-            fetchNetworks();
-        }
+            try{
+            List<JsonNetwork> nets = pair.fetchNetworks();
 
-        private void fetchNetworks()
-        {
-            try
-            {
-                HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/scan");
-                HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
-                Stream resStream = response.GetResponseStream();
+            label1.Text = "List of visible networks";
 
-                // used to build entire input
-                StringBuilder sb = new StringBuilder();
-
-                // used on each read operation
-                byte[] buf = new byte[8192];
-
-                // DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(JsonNets));
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                string tempString = null;
-                int count = 0;
-
-                do
-                {
-                    // fill the buffer with data
-                    count = resStream.Read(buf, 0, buf.Length);
-
-                    // make sure we read some data
-                    if (count != 0)
-                    {
-                        // translate from bytes to ASCII text
-                        tempString = Encoding.ASCII.GetString(buf, 0, count);
-
-                        // continue building the string
-                        sb.Append(tempString);
-                    }
-                }
-                while (count > 0);
-
-                //DeSerialize(sb.ToString());
-                List<JsonNetwork> net = JsonNetDeserialize(sb.ToString());
-
-                label1.Text = "List of visible networks";
-
-                listBox1.DataSource = net;
-                listBox1.DisplayMember = "Ssid";
-
+            listBox1.DataSource = nets;
+            listBox1.DisplayMember = "Ssid";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                label1.Text = "Could not fetch the network list from your thermostat.";
+                label1.Text = ex.Message;
             }
         }
-
+        
         private void button2_Click(object sender, EventArgs e)
         {            
             pair.ThermostatSSID = listBox1.SelectedValue.ToString();
