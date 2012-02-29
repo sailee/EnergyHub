@@ -117,6 +117,19 @@ namespace Facade
             }
         }
 
+        public void ConnectToNetwork(JsonNetwork net)
+        {
+            WlanClient.WlanInterface intfc = GetCurrentInterface();
+            String profileXML = GetProfileXML(net.Ssid);
+            if (profileXML.CompareTo("not found") == 0)
+            {
+
+            }
+            else {
+                intfc.ConnectSynchronously(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, net.Ssid, 15000);
+            }
+        }
+
         void test(Wlan.WlanNotificationData notifyData, Wlan.WlanConnectionNotificationData connNotifyData)
         {
             var = notifyData.NotificationCode;
@@ -231,25 +244,25 @@ namespace Facade
             return nets;
         }
 
-        //public string GetProfileXML()
-        //{
-        //    foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
-        //    {
-        //        if (wlanIface.InterfaceState == Wlan.WlanInterfaceState.Connected)
-        //        {
-        //            Wlan.WlanProfileInfo[] profs;        
-        //            Guid interfaceGuid = wlanIface.InterfaceGuid;
-        //            profs = wlanIface.GetProfiles();
+        public string GetProfileXML(String profileName)
+        {
+            foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
+            {
+                if (wlanIface.InterfaceState == Wlan.WlanInterfaceState.Connected)
+                {
+                    Wlan.WlanProfileInfo[] profs;
+                    Guid interfaceGuid = wlanIface.InterfaceGuid;
+                    profs = wlanIface.GetProfiles();
 
-        //            foreach (Wlan.WlanProfileInfo info in profs)
-        //            {
-        //                if(info.profileName.StartsWith("thermostat"))
-        //                    return info.profileName + "\n" + wlanIface.GetProfileXml(info.profileName);
-        //            }
-        //        }
-        //    }
+                    foreach (Wlan.WlanProfileInfo info in profs)
+                    {
+                        if (info.profileName.Equals(profileName))
+                            return wlanIface.GetProfileXml(info.profileName);
+                    }
+                }
+            }
 
-        //    return "not found";
-        //}
+            return "not found";
+        }
     }
 }
