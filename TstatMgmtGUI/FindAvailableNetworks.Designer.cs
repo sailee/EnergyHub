@@ -37,18 +37,18 @@
             // 
             // lbAvailableTstats
             // 
-            this.lbAvailableTstats.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAvailableTstats.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbAvailableTstats.FormattingEnabled = true;
-            this.lbAvailableTstats.ItemHeight = 19;
-            this.lbAvailableTstats.Location = new System.Drawing.Point(136, 196);
+            this.lbAvailableTstats.ItemHeight = 20;
+            this.lbAvailableTstats.Location = new System.Drawing.Point(287, 204);
             this.lbAvailableTstats.Name = "lbAvailableTstats";
-            this.lbAvailableTstats.Size = new System.Drawing.Size(259, 61);
+            this.lbAvailableTstats.Size = new System.Drawing.Size(259, 104);
             this.lbAvailableTstats.TabIndex = 2;
             // 
             // btnJoinNetwork
             // 
-            this.btnJoinNetwork.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnJoinNetwork.Location = new System.Drawing.Point(215, 280);
+            this.btnJoinNetwork.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnJoinNetwork.Location = new System.Drawing.Point(362, 333);
             this.btnJoinNetwork.Name = "btnJoinNetwork";
             this.btnJoinNetwork.Size = new System.Drawing.Size(100, 30);
             this.btnJoinNetwork.TabIndex = 4;
@@ -59,20 +59,20 @@
             // lblFountTstat
             // 
             this.lblFountTstat.AutoSize = true;
-            this.lblFountTstat.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFountTstat.Location = new System.Drawing.Point(116, 156);
+            this.lblFountTstat.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFountTstat.Location = new System.Drawing.Point(246, 163);
             this.lblFountTstat.Name = "lblFountTstat";
-            this.lblFountTstat.Size = new System.Drawing.Size(299, 19);
+            this.lblFountTstat.Size = new System.Drawing.Size(346, 20);
             this.lblFountTstat.TabIndex = 5;
             this.lblFountTstat.Text = "Following is the list of thermostats found :";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::TstatMgmtGUI.Properties.Resources.EnergyHub_logo_color_300;
-            this.pictureBox1.Location = new System.Drawing.Point(0, -2);
+            this.pictureBox1.Image = global::TstatMgmtGUI.Properties.Resources.transition;
+            this.pictureBox1.Location = new System.Drawing.Point(151, 26);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(530, 138);
-            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.Size = new System.Drawing.Size(509, 121);
+            this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
             // 
             // FindAvailableNetworks
@@ -80,7 +80,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(527, 359);
+            this.ClientSize = new System.Drawing.Size(800, 474);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblFountTstat);
             this.Controls.Add(this.btnJoinNetwork);
