@@ -17,19 +17,20 @@ namespace Facade
     {
         public String ObtainMobileAuthToken()
         {
+
             try
             {
                 HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("https://mercury-beta.energyhub.net/filtrete/rest/public/mobileAuth");
                 myReq.Credentials = new NetworkCredential("sean.helvey@gmail.com", "Br@infood11");
                 myReq.Method = @"POST";
-                myReq.ContentType = @"application/json";
+                myReq.ContentType = @"application/x-www-form-urlencoded; charset=utf-8";
                 string Body = "j_username=sean.helvey@gmail.com&j_password=Br@infood11";
                 byte[] data = Encoding.UTF8.GetBytes(Body);
                 myReq.ContentLength = data.Length;
-                using (Stream stream = myReq.GetRequestStream())
+                using(Stream stream = myReq.GetRequestStream())
                     stream.Write(data, 0, data.Length);
-                using (Stream responseStream = myReq.GetResponse().GetResponseStream())
-                using (StreamReader reader = new StreamReader(responseStream, Encoding.UTF8))
+                using(Stream responseStream = myReq.GetResponse().GetResponseStream())
+                using(StreamReader reader = new StreamReader(responseStream, Encoding.UTF8))
                 {
                     string result = reader.ReadToEnd();
                 }
@@ -67,9 +68,15 @@ namespace Facade
                 string authToken = JsonMercuryDeserialize(sb.ToString());
                 return authToken;
             }
-            catch (WebException Exception)
+
+            catch (WebException Exception1)
             {
-                throw new WebException("Could not obtain auth token from server.", Exception);
+                throw new WebException("Could not obtain auth token from server.", Exception1);
+            }
+
+            catch (Exception Exception2)
+            {
+                throw new Exception("Could not obtain auth token from server.", Exception2);
             }
         }
 
