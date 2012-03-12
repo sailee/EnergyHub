@@ -48,6 +48,7 @@ namespace TstatMgmtGUI
             try
             {
                 pair.ConnectToThermoStat(pair.ThermostatSSID);
+                //Added sleep timer of 5 seconds, to ensure that the thermostat is connected
                 Thread.Sleep(5000);
                 label1.Invoke((MethodInvoker)(() => label1.Text = "Successfully connected to " + pair.ThermostatSSID));
                 btnContinue.Invoke((MethodInvoker)(() => btnContinue.Show()));
@@ -62,8 +63,8 @@ namespace TstatMgmtGUI
         private void btnContinue_Click(object sender, EventArgs e)
         {
             this.Hide();
-            ShowVisibleNetworks svn = new ShowVisibleNetworks(pair);            
-            svn.Show();
+            ShowVisibleNetworks svn = new ShowVisibleNetworks(pair);
+            svn.Show();            
         }       
     }
 }

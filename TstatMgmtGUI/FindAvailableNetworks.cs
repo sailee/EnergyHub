@@ -52,8 +52,19 @@ namespace TstatMgmtGUI
         private void FindAvailableNetworks_Load(object sender, EventArgs e)
         {
             //this.Show();
-            pair = new TstatPairing();
-            
+            getThermostats();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            getThermostats();
+        }
+
+        private void getThermostats()
+        {
+            if(pair == null)
+                pair = new TstatPairing();
+
             try
             {
                 List<Network> networks = pair.GetAvailableThermostats().FindAll(StartsWithThermostat);
@@ -65,7 +76,7 @@ namespace TstatMgmtGUI
 
                 //lbAvailableTstats.Items.Clear();
                 lbAvailableTstats.DataSource = networks;
-                lbAvailableTstats.DisplayMember = "NetworkSSID";                
+                lbAvailableTstats.DisplayMember = "NetworkSSID";
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Security.Cryptography;
 
 namespace Facade
 {
@@ -115,6 +116,96 @@ namespace Facade
             {
                 throw new Exception("Guid not found");
             }
+        }
+
+        public static string encode(string ascii)
+        {
+            if (ascii == null)
+            {
+                return null;
+            }
+            else
+            {
+                char[] arrChars = ascii.ToCharArray();
+                string binary = "";
+                //string divider = ".";
+                foreach (char ch in arrChars)
+                {
+                    binary += Convert.ToString(Convert.ToInt32(ch), 2);
+                }
+                return binary;
+            }
+        } 
+
+        public void ConnectToHomeNetwork(JsonNetwork net, String pin, String password)
+        {
+            //Get UUID
+            Thermostat t = getThermostatDetails();
+
+            Rfc2898DeriveBytes pwdGen = new Rfc2898DeriveBytes(pin, Encoding.UTF8.GetBytes(t.UUID), 1000);
+            
+            // generate an RC2 key
+            byte[] key = pwdGen.GetBytes(16);
+            byte[] iv = pwdGen.GetBytes(8);
+
+            String pass = String.Empty;
+            for (int i = 0; i < key.Length; i++)
+            {
+                pass += key[i].ToString();
+            }
+
+            pass = encode(pass);
+
+            AesCryptoServiceProvider aes_cp = new AesCryptoServiceProvider();
+            aes_cp.Mode = CipherMode.CBC;
+            aes_cp.KeySize = 128;
+            aes_cp.Key = key;
+            aes_cp.IV = key;
+            aes_cp.Padding = PaddingMode.PKCS7;
+
+            // now encrypt with it
+            byte[] plaintext = Encoding.UTF8.GetBytes(pass);
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, aes_cp.CreateEncryptor(), CryptoStreamMode.Write);            
+            
+
+            cs.Write(plaintext, 0, plaintext.Length);
+            cs.Close();
+            byte[] encrypted = ms.ToArray();
+
+
+            //Connect to network
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/network");
+            myReq.Method = @"PUT";
+            myReq.ContentType = @"application/json; charset=utf-8";
+
+            string Body = "{'ssid':" + net.Ssid +"','bssid':'" + net.Bssid + "','channel': '" + net.Channel +",'security': " + net.SecurityMode
+                +",'ip':1,'rssi':'" + net.RSSI_in_dBm + "'}";
+
+            byte[] data = Encoding.UTF8.GetBytes(Body);
+            myReq.ContentLength = data.Length;
+
+            //Request Stream
+            Stream stream = myReq.GetRequestStream();
+            stream.Write(data, 0, data.Length);
+
+            Stream responseStream = myReq.GetResponse().GetResponseStream();
+            StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+
+            //Stream to String
+            String result = reader.ReadToEnd();
+            reader.Close();
+        }
+
+        private Thermostat getThermostatDetails()
+        {
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys");
+            myReq.Method = @"GET";
+            HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
+            Stream resStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(resStream, Encoding.UTF8);
+            String result = reader.ReadToEnd();
+            return new Thermostat(result,thermostatSSID) ;
         }
 
         public void ConnectToNetwork(JsonNetwork net)

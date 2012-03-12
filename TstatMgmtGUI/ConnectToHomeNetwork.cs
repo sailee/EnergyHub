@@ -33,25 +33,25 @@ namespace TstatMgmtGUI
         private void ConnectToHomeNetwork_Load(object sender, EventArgs e)
         {
             pair.ThermostatSSID = currentNetwork.Ssid;
-            label1.Text = label1.Text + " " + currentNetwork.Ssid;            
+            txtNetworkName.Text= currentNetwork.Ssid;            
         }
 
         private void Connect()
-        {            
-            pair.ConnectToNetwork(currentNetwork);
+        {
+            pair.ConnectToHomeNetwork(currentNetwork, txtPIN.Text, txtPassword.Text );
             Thread.Sleep(5000);
             label1.Invoke((MethodInvoker)(() => label1.Text ="Successfully connected to " + pair.ThermostatSSID));           
-        }
+        }       
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
                 label1.Text = "Attempting to connect to " + pair.ThermostatSSID;
-                button1.Hide();
+                btnConnect.Hide();
                 txtPassword.Hide();
                 Thread t = new Thread(Connect);
-                t.Start();              
+                t.Start();
             }
             catch (Exception ex)
             {

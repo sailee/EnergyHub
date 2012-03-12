@@ -18,6 +18,12 @@ namespace TstatMgmtGUI
             InitializeComponent();
         }
 
+        public ShowVisibleNetworks()
+        {
+            this.pair = new TstatPairing();
+            InitializeComponent();
+        }
+
         private void ShowVisibleNetworks_Load(object sender, EventArgs e)
         {
             try
@@ -64,6 +70,8 @@ namespace TstatMgmtGUI
 
             listBox1.DataSource = nets;
             listBox1.DisplayMember = "Ssid";
+            listBox1.Show();
+            button2.Show();
             }
             catch (Exception ex)
             {
@@ -73,7 +81,6 @@ namespace TstatMgmtGUI
         
         private void button2_Click(object sender, EventArgs e)
         {
-
             ConnectToHomeNetwork cth = new ConnectToHomeNetwork((JsonNetwork)listBox1.SelectedItem, pair);
             this.Hide();
             cth.Show();           

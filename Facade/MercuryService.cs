@@ -53,14 +53,14 @@ namespace Facade
                 return mobileAuthToken;
             }
 
-            catch (WebException)
+            catch (WebException ex)
             {
-                throw new WebException("WebException");
+                throw ex;
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception("Exception");
+                throw e;
             }
         }       
     }
