@@ -30,6 +30,8 @@ namespace TstatMgmtGUI
             string checkToken = string.Copy(token);
             string[] loc = service.FetchLocations();
             string[] checkLoc = loc;
+            string target = service.GetTargetFirmware();
+            string checkTarget = target;
             //MessageBox.Show("UPDATING FIRMWARE \nWe found a newer version of the application. This will only take a minute.", "Updating Firmware");
             this.Hide();
             FindAvailableNetworks FindNetworks = new FindAvailableNetworks();

@@ -106,7 +106,7 @@ namespace Facade
                 }
                 while (count > 0);
 
-                string[] returnEm = jsonParse(sb);
+                string[] returnEm = parseLocations(sb);
 
                 //return locations
                 return returnEm;
@@ -123,7 +123,7 @@ namespace Facade
             }
         }
 
-        public string[] jsonParse(StringBuilder mySB)
+        public string[] parseLocations(StringBuilder mySB)
         {
 
             string result = mySB.ToString();
@@ -153,5 +153,65 @@ namespace Facade
             string[] returnVals = keepers.ToArray();
             return returnVals;
         }
+
+        //HttpWebRequest to get target firmware from Mercury
+        public string GetTargetFirmware()
+        {
+            try
+            {
+                //Web Request
+                HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("https://mercury-beta.energyhub.net/filtrete/rest/gateways/targetFirmware");
+
+                myReq.Headers.Add("X-Mobile-Auth", Token);
+
+                HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
+                Stream resStream = response.GetResponseStream();
+
+                // used to build entire input
+                StringBuilder sb = new StringBuilder();
+
+                // used on each read operation
+                byte[] buf = new byte[8192];
+
+                string tempString = null;
+                int count = 0;
+
+                do
+                {
+                    // fill the buffer with data
+                    count = resStream.Read(buf, 0, buf.Length);
+
+                    // make sure we read some data
+                    if (count != 0)
+                    {
+                        // translate from bytes to ASCII text
+                        tempString = Encoding.ASCII.GetString(buf, 0, count);
+
+                        // continue building the string
+                        sb.Append(tempString);
+                    }
+                }
+                while (count > 0);
+
+                string returnIt = sb.ToString();
+                JObject cleanUp = JObject.Parse(returnIt);
+                string target = (string)cleanUp["flash_version"];
+
+                //return target
+                return target;
+            }
+
+            catch (WebException)
+            {
+                throw new WebException("WebException");
+            }
+
+            catch (Exception)
+            {
+                throw new Exception("Exception");
+            }
+        }
     }
 }
+
+       
