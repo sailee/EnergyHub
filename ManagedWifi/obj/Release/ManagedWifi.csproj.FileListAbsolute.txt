@@ -1,5 +1,0 @@
-C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\ManagedWifi\bin\Release\ManagedWifi.dll
-C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\ManagedWifi\bin\Release\ManagedWifi.pdb
-C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\ManagedWifi\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\ManagedWifi\obj\Release\ManagedWifi.dll
-C:\Users\Sean\Documents\Visual Studio 2010\Projects\EnergyHub\ManagedWifi\obj\Release\ManagedWifi.pdb
