@@ -24,11 +24,15 @@ namespace TstatMgmtGUI
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Please Note \nThis process will interupt your internet connection. Please save your open files. Then click 'OK' for the next step.", "Warning", MessageBoxButtons.OKCancel);
+            //MessageBox.Show("Please Note \nThis process will interupt your internet connection. Please save your open files. Then click 'OK' for the next step.", "Warning", MessageBoxButtons.OKCancel);
             MercuryService service = new MercuryService();
             string token = service.ObtainMobileAuthToken();
             string checkToken = string.Copy(token);
-            MessageBox.Show("UPDATING FIRMWARE \nWe found a newer version of the application. This will only take a minute.", "Updating Firmware");
+            string[] loc = service.FetchLocations();
+            string[] checkLoc = loc;
+            string target = service.GetTargetFirmware();
+            string checkTarget = target;
+            //MessageBox.Show("UPDATING FIRMWARE \nWe found a newer version of the application. This will only take a minute.", "Updating Firmware");
             this.Hide();
             FindAvailableNetworks FindNetworks = new FindAvailableNetworks();
             FindNetworks.ShowDialog();
