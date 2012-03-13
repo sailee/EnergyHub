@@ -229,7 +229,16 @@ namespace Facade
 
                 result = pushNetworkConfiguration(net, hex);
 
-                return true;
+                JObject ans = JObject.Parse(result);
+                int res1 = (int)ans["success"];
+                if (res1 == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }   
                 
             }
             catch (Exception ex)

@@ -50,6 +50,25 @@ namespace TstatMgmtGUI
                 ServiceDiscovery sd = new ServiceDiscovery();
                 sd.Show();
             }
+            else
+            {
+                int count = 2;
+                while (count != 0)
+                {
+                    result = pair.ConfigureHomeNetwork(currentNetwork, txtPIN.Text, txtPassword.Text);
+                    if (result == true)
+                    {
+                        break;
+                    }
+                    count--;
+                }
+                if (count == 0)
+                {
+                    MessageBox.Show("Unable to connect to Thermostat", "Error", MessageBoxButtons.OKCancel);
+
+                }
+            }
+
         }       
 
         private void btnConnect_Click(object sender, EventArgs e)
