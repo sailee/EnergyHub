@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace InternalDataTypes
-{
+{   
     public class Thermostat
     {
-        String ssid, uuid, fw_version, wlan_fw_version;
+        String ssid, uuid, fw_version, wlan_fw_version;    
         int api_version ;
 
         public Thermostat(String ssid, String uuid, int api_version, String fw_version, String wlan_fw_version)
@@ -30,6 +28,8 @@ namespace InternalDataTypes
             this.fw_version = (String)jsonObj["fw_version"];
             this.wlan_fw_version = (String)jsonObj["wlan_fw_version"];
         }
+
+        
 
         public String WlanFirmwareVersion
         {
@@ -59,6 +59,6 @@ namespace InternalDataTypes
         {
             get { return ssid; }
             set { ssid = value; }
-        }
+        }       
     }
 }

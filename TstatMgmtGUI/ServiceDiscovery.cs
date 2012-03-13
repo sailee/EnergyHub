@@ -35,7 +35,7 @@ namespace TstatMgmtGUI
            
             IPEndPoint sending_end_point = new IPEndPoint(send_to_address, 1900);
 
-            string text_to_send = "TYPE: WM-DISCOVER\r\nVERSION: 1.0\r\n\r\nservices: com.marvell.wm.system*\r\n\r\n";
+            string text_to_send = "TYPE: WM-DISCOVER\r\nVERSION: 1.0\r\n\r\nservices: com.rtcoa.tstat*\r\n\r\n";
             byte[] send_buffer = Encoding.ASCII.GetBytes(text_to_send);
 
             EndPoint ep = (EndPoint)sending_end_point;
@@ -44,6 +44,9 @@ namespace TstatMgmtGUI
                 
             try
             {
+                //Thread t = new Thread(timeout);
+                //t.Start();
+
                 sending_socket.SendTo(send_buffer, sending_end_point);
 
                 //EndPoint ep = sending_end_point.Create(sending_socket.a);
@@ -70,6 +73,12 @@ namespace TstatMgmtGUI
             }
 
             
+        }
+
+        private void timeout()
+        {
+            Thread.Sleep(30000);
+            throw new Exception("Timeout");
         }
 
         private void listen()

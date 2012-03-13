@@ -7,18 +7,18 @@ using Newtonsoft.Json;
 
 namespace InternalDataTypes
 {
-    //[DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public class JsonNetwork
     {
-        //[DataMember(Order = 0)]
-        //[JsonProperty()]
-        private string ssid;
 
+        private string ssid, ipaddr, ipgw, ipmask;  
+       
         public string Ssid
         {
             get { return ssid; }
             set { ssid = value; }
         }
+
         //[DataMember(Order = 1)]
         //[JsonProperty()]
         public string Bssid;
@@ -49,6 +49,24 @@ namespace InternalDataTypes
         {
             String str = "SSID: " + ssid + "\tBSSID: " + Bssid;
                 return str;
+        }
+
+        public String Ipmask
+        {
+            get { return ipmask; }
+            set { ipmask = value; }
+        }
+
+        public String Ipgw
+        {
+            get { return ipgw; }
+            set { ipgw = value; }
+        }
+
+        public String Ipaddr
+        {
+            get { return ipaddr; }
+            set { ipaddr = value; }
         }
     }
 }

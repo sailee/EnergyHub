@@ -118,69 +118,135 @@ namespace Facade
             }
         }
 
-        public static string encode(string ascii)
+        public static byte[] encode(string binary)
         {
-            if (ascii == null)
+            if (binary == null)
             {
                 return null;
             }
             else
             {
-                char[] arrChars = ascii.ToCharArray();
-                string binary = "";
-                //string divider = ".";
-                foreach (char ch in arrChars)
+                int numOfBytes = binary.Length / 8;
+                byte[] bytes = new byte[numOfBytes];
+                for (int i = 0; i < numOfBytes; ++i)
                 {
-                    binary += Convert.ToString(Convert.ToInt32(ch), 2);
+                    bytes[i] = Convert.ToByte(binary.Substring(8 * i, 8), 2);
                 }
-                return binary;
+                return bytes;
             }
-        } 
-
-        public void ConnectToHomeNetwork(JsonNetwork net, String pin, String password)
+        }
+       
+        static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
-            //Get UUID
-            Thermostat t = getThermostatDetails();
-
-            Rfc2898DeriveBytes pwdGen = new Rfc2898DeriveBytes(pin, Encoding.UTF8.GetBytes(t.UUID), 1000);
-            
-            // generate an RC2 key
-            byte[] key = pwdGen.GetBytes(16);
-            byte[] iv = pwdGen.GetBytes(8);
-
-            String pass = String.Empty;
-            for (int i = 0; i < key.Length; i++)
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("Key");
+            byte[] encrypted;
+            // Create an AesCryptoServiceProvider object
+            // with the specified key and IV.
+            using (AesCryptoServiceProvider aesAlg = new AesCryptoServiceProvider())
             {
-                pass += key[i].ToString();
+                aesAlg.Key = Key;
+                aesAlg.IV = IV;
+
+                // Create a decrytor to perform the stream transform.
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                }
             }
 
-            pass = encode(pass);
-
-            AesCryptoServiceProvider aes_cp = new AesCryptoServiceProvider();
-            aes_cp.Mode = CipherMode.CBC;
-            aes_cp.KeySize = 128;
-            aes_cp.Key = key;
-            aes_cp.IV = key;
-            aes_cp.Padding = PaddingMode.PKCS7;
-
-            // now encrypt with it
-            byte[] plaintext = Encoding.UTF8.GetBytes(pass);
-            MemoryStream ms = new MemoryStream();
-            CryptoStream cs = new CryptoStream(ms, aes_cp.CreateEncryptor(), CryptoStreamMode.Write);            
-            
-
-            cs.Write(plaintext, 0, plaintext.Length);
-            cs.Close();
-            byte[] encrypted = ms.ToArray();
+            // Return the encrypted bytes from the memory stream.
+            return encrypted;
+        }
 
 
-            //Connect to network
+        public Boolean ConfigureHomeNetwork(JsonNetwork net, String pin, String password)
+        {
+            try
+            {
+                //Get UUID
+                Thermostat t = getThermostatDetails();
+
+                // Rfc2898DeriveBytes pwdGen = new Rfc2898DeriveBytes(pin, Encoding.UTF8.GetBytes(uuid), 1000);
+                Rfc2898DeriveBytes pwdGen = new Rfc2898DeriveBytes(pin, Encoding.UTF8.GetBytes(t.UUID), 1000);
+
+                // generate an RC2 key
+                byte[] key = pwdGen.GetBytes(16);
+                byte[] iv = pwdGen.GetBytes(8);
+
+                //Convert the network password from hex-ascii to binary
+                //C17A0E3E5DD809B450FBF02B1E
+                byte[] pass = Encoding.ASCII.GetBytes(password);
+
+                String str = String.Empty;
+
+                int missingDigits = 16 - pass.Length % 16;
+
+                for (int i = 0; i < pass.Length + missingDigits; i++)
+                {
+                    if (i < pass.Length)
+                        str += pass[i].ToString();
+                    else
+                        str += missingDigits.ToString();
+                }
+
+                byte[] cipher = EncryptStringToBytes_Aes(password, key, key);
+                string hex = BitConverter.ToString(cipher);
+                hex = hex.Replace("-", "");
+
+
+                //Get Network configuration
+                HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/network");
+                HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                //Stream to String
+                String result = reader.ReadToEnd();
+                reader.Close();
+
+                JObject jsonObj = JObject.Parse(result);
+
+                net.Ipaddr = (String)jsonObj["ipaddr"];
+                net.Ipgw = (String)jsonObj["ipgw"];
+                net.Ipmask =(String)jsonObj["ipmask"];
+
+                result = pushNetworkConfiguration(net, hex);
+
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private String pushNetworkConfiguration(JsonNetwork net, string key)
+        {
             HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/network");
-            myReq.Method = @"PUT";
+            
+            myReq = (HttpWebRequest)WebRequest.Create("http://192.168.10.1/sys/network");
+            myReq.Method = "POST";
             myReq.ContentType = @"application/json; charset=utf-8";
 
-            string Body = "{'ssid':" + net.Ssid +"','bssid':'" + net.Bssid + "','channel': '" + net.Channel +",'security': " + net.SecurityMode
-                +",'ip':1,'rssi':'" + net.RSSI_in_dBm + "'}";
+            String Body = getJson(net, key);
 
             byte[] data = Encoding.UTF8.GetBytes(Body);
             myReq.ContentLength = data.Length;
@@ -188,13 +254,52 @@ namespace Facade
             //Request Stream
             Stream stream = myReq.GetRequestStream();
             stream.Write(data, 0, data.Length);
+            stream.Close();
 
-            Stream responseStream = myReq.GetResponse().GetResponseStream();
+            HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
+            String status = response.StatusDescription;
+
+            Stream responseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-
             //Stream to String
-            String result = reader.ReadToEnd();
+            String result= reader.ReadToEnd();
+
             reader.Close();
+            responseStream.Close();
+            response.Close();
+
+            return result;
+        }        
+
+        private String getJson(JsonNetwork net, String key)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            //'{"version":"2.00","ssid":"Trantor","security":3,"key":"mysecret","ip":0,"ipaddr":"192.168.1.100","ipmask":"255.255.255.0","ipgw":"192.168.1.1"}'
+            using (JsonWriter jw = new JsonTextWriter(sw))
+            {
+                jw.Formatting = Formatting.Indented;
+                jw.WriteStartObject();
+                jw.WritePropertyName("version");
+                jw.WriteValue("2"); //what is this???
+                jw.WritePropertyName("ssid");
+                jw.WriteValue(net.Ssid);
+                jw.WritePropertyName("security");
+                jw.WriteValue(net.SecurityMode);
+                jw.WritePropertyName("key");
+                jw.WriteValue(key);
+                jw.WritePropertyName("ip");
+                jw.WriteValue(1); //verify this, and about other missing fields
+                jw.WritePropertyName("ipaddr");
+                jw.WriteValue(net.Ipaddr);
+                jw.WritePropertyName("ipmask");
+                jw.WriteValue(net.Ipmask);
+                jw.WritePropertyName("ipgw");
+                jw.WriteValue(net.Ipgw);
+                //jw.WriteEnd();
+                jw.WriteEndObject();
+            }
+            return sb.ToString();
         }
 
         private Thermostat getThermostatDetails()
@@ -212,6 +317,7 @@ namespace Facade
         {
             WlanClient.WlanInterface intfc = GetCurrentInterface();
             String profileXML = GetProfileXML(net.Ssid);
+            //what if profileXML is not found?
             if (profileXML.CompareTo("not found") == 0)
             {
 
